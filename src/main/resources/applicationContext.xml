@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/mvc 
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+   <import resource="classpath:mysql-datasource.xml"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="com.mahjong.server"/>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+               <value>classpath*:*.properties</value>
+            </list>
+        </property>
+    </bean>
+	<bean id="handlerExceptionResolver" class="com.mahjong.server.handler.ApiJsonHandlerExceptionResolver">
+	        <property name="order" value="-1"/>
+	</bean>
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value="htm" />
+    </bean>
+  <!-- 使用fastjson完成请求和注解POJO的映射 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 配置Fastjson支持 -->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=utf-8</value>
+                     </list>   
+                </property>
+                <property name="features">
+                    <list>
+               			<value>QuoteFieldNames</value>
+                        <value>WriteNullStringAsEmpty</value>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteNullListAsEmpty</value>
+                        <value>WriteNonStringKeyAsString</value>
+                        <value>WriteNullNumberAsZero</value>
+                        <value>WriteNullBooleanAsFalse</value>
+                        <value>SkipTransientField</value>
+                        <value>DisableCircularReferenceDetect</value>
+                        <value>WriteEnumUsingToString</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+       
+     </mvc:annotation-driven>   
+     <mvc:resources location="/WEB-INF/" mapping="/static/**"/>
+</beans>
+

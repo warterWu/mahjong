@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%c %d{ISO8601}-- %p -- %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="DEBUG" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/mahjong-debug.log" />
+		<param name="BufferSize" value="2048" />
+        <param name="ImmediateFlush" value="false" />
+        <param name="BufferedIO" value="true" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%c %d{ISO8601}-- %p -- %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="DEBUG" />
+		</filter>
+	</appender>
+
+	<appender name="INFO" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/mahjong-info.log" />
+		<param name="BufferSize" value="2048" />
+        <param name="ImmediateFlush" value="false" />
+        <param name="BufferedIO" value="true" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%c %d{ISO8601}-- %p -- %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="INFO" />
+			<param name="LevelMax" value="INFO" />
+		</filter>
+	</appender>
+	
+	<appender name="WARN" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/mahjong-warn.log" />
+		<param name="BufferSize" value="2048" />
+        <param name="ImmediateFlush" value="false" />
+        <param name="BufferedIO" value="true" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%c %d{ISO8601}-- %p -- %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="WARN" />
+			<param name="LevelMax" value="WARN" />
+		</filter>
+	</appender>
+
+	<appender name="ERROR" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/mahjong-error.log" />
+		<param name="BufferSize" value="2048" />
+        <param name="ImmediateFlush" value="false" />
+        <param name="BufferedIO" value="true" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%c %d{ISO8601}-- %p -- %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="ERROR" />
+			<param name="LevelMax" value="ERROR" />
+		</filter>
+	</appender>
+	<appender name="JmonitorAppender" class="com.alibaba.alimonitor.jmonitor.plugin.log4j.JMonitorLog4jAppender">
+	</appender>
+	<logger name="org.springframework" additivity="false">
+		<level value ="INFO"/>
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.apache" additivity="false">
+		<level value ="INFO"/>
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.alipay.zsearch.sdk" additivity="false">
+		<level value ="INFO"/>
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+	</logger>		
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="DEBUG" />
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+		<appender-ref ref="JmonitorAppender" />
+	</root>
+
+</log4j:configuration>
